@@ -1,6 +1,5 @@
-FROM node:20-alpine
+FROM node:20
 
-# Install pnpm globally
 RUN npm install -g pnpm
 
 WORKDIR /app
@@ -14,4 +13,3 @@ COPY . .
 EXPOSE 5173
 
 CMD ["pnpm", "run", "dev", "--", "--host"]
-

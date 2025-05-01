@@ -6,9 +6,9 @@ services:
     container_name: ekomi_postgres
     restart: always
     environment:
-      POSTGRES_USER: ekomiuser
-      POSTGRES_PASSWORD: ekomipass
-      POSTGRES_DB: ekomidb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: outlook_addin
     ports:
       - "5432:5432"
     volumes:
@@ -23,11 +23,12 @@ services:
     depends_on:
       - postgres
     environment:
-      DB_HOST: postgres
+      DB_HOST: localhost
       DB_PORT: 5432
-      DB_USERNAME: ekomiuser
-      DB_PASSWORD: ekomipass
-      DB_NAME: ekomidb
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: outlook_addin
+      JWT_SECRET: jwt_secret_key
     volumes:
       - ./apps/server:/app
 

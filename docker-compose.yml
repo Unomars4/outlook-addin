@@ -30,7 +30,7 @@ services:
       DB_DATABASE: outlook_addin
       JWT_SECRET: jwt_secret_key
     volumes:
-      - ./apps/server:/app
+      - ./apps/server:/app/server
 
   client:
     build: ./apps/client
@@ -42,7 +42,7 @@ services:
     environment:
       VITE_API_URL: http://localhost:5173 
     volumes:
-      - ./apps/client:/app
+      - ./apps/client:/app/client
 
 volumes:
   postgres_data:

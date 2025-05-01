@@ -31,6 +31,18 @@ services:
     volumes:
       - ./apps/server:/app
 
+  client:
+    build: ./apps/client
+    container_name: ekomi_client
+    ports:
+      - "5173:5173" # or 3001/8080, depending on your dev server
+    depends_on:
+      - server
+    environment:
+      VITE_API_URL: http://localhost:3000 # Update based on your setup
+    volumes:
+      - ./apps/client:/app
+
 volumes:
   postgres_data:
 

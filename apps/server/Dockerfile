@@ -1,5 +1,8 @@
 FROM node:20-alpine
 
+# Install bash and curl
+RUN apk add --no-cache bash curl
+
 # Install pnpm globally
 RUN npm install -g pnpm
 
@@ -7,15 +10,14 @@ WORKDIR /app
 
 COPY pnpm-lock.yaml ./
 COPY package.json ./
-
-# Force rebuild of native modules
-RUN pnpm install --force
+RUN pnpm install
 
 COPY . .
 
-RUN pnpm migration
+# Copy wait-for-it script
+COPY wait-for-it.sh /usr/local/bin/wait-for-it
+RUN chmod +x /usr/local/bin/wait-for-it
 
 EXPOSE 3000
 
-# Use ts-node with transpile-only to bypass type checking
-CMD ["npx", "ts-node", "--transpile-only", "src/index.ts"]
+CMD ["bash", "-c", "wait-for-it postgres:5432 -- pnpm start"]

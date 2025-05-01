@@ -1,50 +1,36 @@
 version: '3.8'
 
 services:
-  client:
-    build:
-      context: ./apps/client
-      dockerfile: Dockerfile
-    ports:
-      - "5173:5173"
-    volumes:
-      - ./apps/client:/app
-      - /app/node_modules
+  postgres:
+    image: postgres:15-alpine
+    container_name: ekomi_postgres
+    restart: always
     environment:
-      - NODE_ENV=${NODE_ENV}
-      - VITE_API_URL=http://server:3000
-    depends_on:
-      - server
-
-  server:
-    build:
-      context: ./apps/server
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    environment:
-      - DB_HOST=database
-      - DB_PORT=5432
-      - DB_USERNAME=${DB_USERNAME}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_DATABASE=${DB_DATABASE}
-      - NODE_ENV=${NODE_ENV}
-    depends_on:
-      - database
-    volumes:
-      - ./apps/server:/app
-      - /app/node_modules
-
-  database:
-    image: postgres:14-alpine
-    environment:
-      - POSTGRES_USER=${DB_USERNAME}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_DATABASE}
+      POSTGRES_USER: ekomiuser
+      POSTGRES_PASSWORD: ekomipass
+      POSTGRES_DB: ekomidb
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  server:
+    build: ./apps/server
+    container_name: ekomi_server
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: ekomiuser
+      DB_PASSWORD: ekomipass
+      DB_NAME: ekomidb
+    volumes:
+      - ./apps/server:/app
+
 volumes:
   postgres_data:
+

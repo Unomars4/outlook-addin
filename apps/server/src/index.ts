@@ -34,7 +34,6 @@ AppDataSource.initialize()
     console.log("Loading users from the database...");
     const users = await AppDataSource.manager.find(User);
     console.log("Loaded users: ", users);
-    // Start the Express server first, so it's available even if DB connection fails
     app.listen(PORT, () => {
       console.log("Server is running on http://localhost:" + PORT);
     });

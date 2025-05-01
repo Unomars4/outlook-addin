@@ -20,4 +20,4 @@ RUN chmod +x /usr/local/bin/wait-for-it
 
 EXPOSE 3000
 
-CMD ["bash", "-c", "wait-for-it postgres:5432 -- pnpm start"]
+CMD ["bash", "-c", "wait-for-it postgres:5432 -- pnpm migration && pnpm start"]

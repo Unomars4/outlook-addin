@@ -4,4 +4,6 @@ export class UserResponse {
   lastName: string;
   email: string;
   password: string;
+  createdAt: Date;
+  updatedAt: Date;
 }

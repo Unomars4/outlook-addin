@@ -32,8 +32,8 @@ AppDataSource.initialize()
     const users = await AppDataSource.manager.find(User);
     console.log("Loaded users: ", users);
 
-    console.log(
-      "Here you can setup and run express / fastify / any other framework.",
-    );
+    app.listen(PORT, () => {
+      console.log("Server is running on http://localhost:" + PORT);
+    });
   })
   .catch((error) => console.log(error));

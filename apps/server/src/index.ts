@@ -5,6 +5,7 @@ import * as dotenv from "dotenv";
 import { Request, Response } from "express";
 import { userRouter } from "./routes/user.routes";
 import "reflect-metadata";
+import { encrypt } from "./helpers";
 dotenv.config();
 
 const app = express();
@@ -27,7 +28,7 @@ AppDataSource.initialize()
     user.firstName = "Timber";
     user.lastName = "Saw";
     user.email = "timber@gmail.com";
-    user.password = "dadaddadfd";
+    user.password = await encrypt.encryptpass("password");
     await AppDataSource.manager.save(user);
     console.log("Saved a new user with id: " + user.id);
 

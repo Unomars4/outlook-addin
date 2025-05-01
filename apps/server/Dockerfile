@@ -13,6 +13,8 @@ RUN pnpm install --force
 
 COPY . .
 
+RUN pnpm migration
+
 EXPOSE 3000
 
 # Use ts-node with transpile-only to bypass type checking

@@ -59,5 +59,5 @@ If you prefer to run the add-in using Docker Compose for a more streamlined setu
   
 ## Notes
 
-I was unable to complete the assessment within the given timeframe due to my lack of familiarity with the Office.js API.
+I was unable to complete the assessment within the given timeframe.
 

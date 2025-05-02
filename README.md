@@ -1,14 +1,30 @@
-# Outlook Add-in Project
+# Outlook Add-in
 
 ## Overview
 
-This is a secure, containerized Outlook add-in built using TypeScript and the Office JavaScript API. The add-in leverages JWT-based authentication to ensure secure communication between the add-in and external services.
+This is a secure, containerized Outlook add-in built using TypeScript and the Office-JS API.
 
-## Features
+## Auth Flow
+1. User signs up or logs in via the client.
+2. Server returns a JWT.
+3. Client stores the token (in-memory or localStorage).
+4. All protected routes (like /contact-info) require the JWT in the Authorization header. 
 
-- **JWT-based Authentication**: Ensures secure authentication between users and external services.
-- **Containerized**: The add-in is containerized using Docker for consistent development and deployment.
-- **Compatible with Outlook**: Designed to work within the Outlook client, providing a seamless user experience.
+
+## Tech Choices
+ - Client: Vite, React, Shadcn, Typescript, Tailwindcss, OfficeJS
+      - Before choosing the above client stack, I initially attempted to use the [npm yeoman-generator](https://learn.microsoft.com/en-us/office/dev/add-ins/quickstarts/fluent-react-quickstart) for Outlook add-ins. However, I couldn't get it running locally, so I pivoted to building a simulated add-in experience instead.
+ - Server: Typescript, TypeOrm, NodeJS, Express, JWT, BcryptJS
+      - The server stack was chosen for I'm familiar with it and it's simplicity.
+ - DB: PostgresSQL
+
+## Resources
+- [Express Documentation](https://expressjs.com/)
+- [TypeORM Documentation](https://typeorm.io/)
+- OfficeJS Documentation:
+     - [Understanding the JS Api](https://learn.microsoft.com/en-us/office/dev/add-ins/develop/understanding-the-javascript-api-for-office)
+     - [Manifest reference](https://learn.microsoft.com/en-us/office/dev/add-ins/develop/xml-manifest-overview?tabs=tabid-1)
+     - [Microsoft add-in docs](https://learn.microsoft.com/en-us/office/dev/add-ins/overview/learning-path-beginner)
 
 ## Prerequisites
 
@@ -16,7 +32,6 @@ Before getting started, make sure you have the following installed on your machi
 
 - [Node.js](https://nodejs.org/) (version 14 or later)
 - [Docker](https://www.docker.com/get-started)
-- [pnpm](https://pnpm.io/) (for managing dependencies)
 
 ## Installation
 
@@ -35,7 +50,14 @@ If you prefer to run the add-in using Docker Compose for a more streamlined setu
 2. Build and start the add-in using Docker Compose:
 
    ```bash
-   docker-compose up --build
+   docker-compose up -d --build
    ```
+3. The Client, DB and Server should then be available at the following ports:
+   - Client: 5173
+   - DB: 5432
+   - Server: 3000
+  
+## Notes
 
+I was unable to complete the assessment within the given timeframe due to my lack of familiarity with the Office.js API.
 

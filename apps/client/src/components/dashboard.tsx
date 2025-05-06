@@ -1,3 +1,4 @@
+import { User } from "@/App";
 import { AppSidebar } from "@/components/app-sidebar";
 import {
   Breadcrumb,
@@ -14,7 +15,13 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 
-export default function DashBoard() {
+export default function DashBoard({
+  user,
+  userHandler,
+}: {
+  user: User;
+  userHandler: React.Dispatch<React.SetStateAction<User | null>>;
+}) {
   return (
     <SidebarProvider
       style={
@@ -23,7 +30,7 @@ export default function DashBoard() {
         } as React.CSSProperties
       }
     >
-      <AppSidebar />
+      <AppSidebar user={user} userHandler={userHandler} />
       <SidebarInset>
         <header className="sticky top-0 flex shrink-0 items-center gap-2 border-b bg-background p-4">
           <SidebarTrigger className="-ml-1" />

@@ -13,13 +13,14 @@ import loginService from "@/services/user";
 import contactService from "@/services/contacts";
 import { Dispatch, SetStateAction } from "react";
 import { toast } from "sonner";
+import { User } from "@/App";
 
 export function LoginForm({
   className,
   userHandler,
   ...props
 }: React.ComponentProps<"div"> & {
-  userHandler: Dispatch<SetStateAction<null>>;
+  userHandler: Dispatch<SetStateAction<User | null>>;
 }) {
   const actionState = async (formData: FormData) => {
     const email = formData.get("email");
@@ -33,10 +34,9 @@ export function LoginForm({
         userHandler(user.user);
         contactService.setToken(user.token);
         window.localStorage.setItem("outlookAddIn", JSON.stringify(user));
-        toast("You have logged in successfully 🙂");
+        toast(`Welcome back ${user.user.firstName}🙂`);
       } catch (err) {
-        console.error("Something went wrong:", err);
-        toast("We were unable to log you in 😔");
+        toast(`We were unable to log you in 😔: ${err.response.data.message}`);
       }
     }
   };

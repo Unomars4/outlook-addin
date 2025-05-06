@@ -147,9 +147,17 @@ const data = {
 type AppSidebarProps = {
   user: User;
   userHandler: React.Dispatch<React.SetStateAction<User | null>>;
+  selectedContactHandler: React.Dispatch<
+    React.SetStateAction<ContactUser | null>
+  >;
 } & React.ComponentProps<typeof Sidebar>;
 
-export function AppSidebar({ userHandler, user, ...props }: AppSidebarProps) {
+export function AppSidebar({
+  userHandler,
+  selectedContactHandler,
+  user,
+  ...props
+}: AppSidebarProps) {
   // Note: I'm using state to show active item.
   // IRL you should use the url/router.
   const [activeItem, setActiveItem] = React.useState(data.navMain[0]);
@@ -268,6 +276,16 @@ export function AppSidebar({ userHandler, user, ...props }: AppSidebarProps) {
             <SidebarGroupContent>
               {mails.map((mail) => (
                 <a
+                  onClick={() => {
+                    const contact = userContacts.find(
+                      (c) => c.email === mail.email,
+                    );
+                    if (contact) {
+                      selectedContactHandler(contact);
+                    } else {
+                      selectedContactHandler(null);
+                    }
+                  }}
                   href="#"
                   key={mail.email}
                   className="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex flex-col items-start gap-2 border-b p-4 text-sm leading-tight whitespace-nowrap last:border-b-0"

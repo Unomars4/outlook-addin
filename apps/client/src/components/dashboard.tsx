@@ -14,6 +14,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { useState } from "react";
 
 export default function DashBoard({
   user,
@@ -22,6 +23,9 @@ export default function DashBoard({
   user: User;
   userHandler: React.Dispatch<React.SetStateAction<User | null>>;
 }) {
+  const [selectedContact, setSelectedContact] = useState<ContactUser | null>(
+    null,
+  );
   return (
     <SidebarProvider
       style={
@@ -30,7 +34,11 @@ export default function DashBoard({
         } as React.CSSProperties
       }
     >
-      <AppSidebar user={user} userHandler={userHandler} />
+      <AppSidebar
+        user={user}
+        userHandler={userHandler}
+        selectedContactHandler={setSelectedContact}
+      />
       <SidebarInset>
         <header className="sticky top-0 flex shrink-0 items-center gap-2 border-b bg-background p-4">
           <SidebarTrigger className="-ml-1" />
@@ -48,12 +56,27 @@ export default function DashBoard({
           </Breadcrumb>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">
-          {Array.from({ length: 24 }).map((_, index) => (
-            <div
-              key={index}
-              className="aspect-video h-12 w-full rounded-lg bg-muted/50"
-            />
-          ))}
+          {selectedContact ? (
+            <div>
+              <p>
+                Here's some details on {selectedContact.firstName} from your
+                contact list:
+              </p>
+              <p>
+                🏣
+                {selectedContact.firstName} works in{" "}
+                {selectedContact.department} as a {selectedContact.title} 💼
+              </p>
+              <p>☎️ : {selectedContact.phoneNumber}</p>
+            </div>
+          ) : (
+            Array.from({ length: 24 }).map((_, index) => (
+              <div
+                key={index}
+                className="aspect-video h-12 w-full rounded-lg bg-muted/50"
+              />
+            ))
+          )}
         </div>
       </SidebarInset>
     </SidebarProvider>

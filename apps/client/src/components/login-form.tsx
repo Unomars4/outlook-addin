@@ -9,11 +9,28 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import loginService from "@/services/user";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const actionState = async (formData: FormData) => {
+    const email = formData.get("email");
+    const password = formData.get("password");
+    if (email && password) {
+      try {
+        const user = await loginService.login({
+          email: email.toString(),
+          password: password.toString(),
+        });
+        console.log(user);
+      } catch (err) {
+        console.error("Something went wrong:", err);
+      }
+    }
+  };
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -24,12 +41,13 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form action={actionState}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-3">
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
+                  name="email"
                   type="email"
                   placeholder="m@example.com"
                   required
@@ -38,14 +56,8 @@ export function LoginForm({
               <div className="grid gap-3">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input id="password" name="password" type="password" required />
               </div>
               <div className="flex flex-col gap-3">
                 <Button type="submit" className="w-full">

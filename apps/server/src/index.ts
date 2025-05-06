@@ -1,6 +1,7 @@
 import { AppDataSource } from "./data-source";
 import { User } from "./entity/User";
 import express from "express";
+import cors from "cors";
 import * as dotenv from "dotenv";
 import { Request, Response } from "express";
 import { userRouter } from "./routes/user.routes";
@@ -9,9 +10,12 @@ import { encrypt } from "./helpers";
 dotenv.config();
 
 const app = express();
+
+app.use(cors());
 app.use(express.json());
+
 const { PORT = 3000 } = process.env;
-app.use("/auth", userRouter);
+app.use("/api/auth", userRouter);
 
 app.get("*", (req: Request, res: Response) => {
   res.status(505).json({ message: "Bad Request" });

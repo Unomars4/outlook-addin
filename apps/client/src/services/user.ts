@@ -1,13 +1,16 @@
 import axios from "axios";
-const baseUrl = "/api/login";
+import { baseApiUrl } from "@/lib/utils";
 
-const login = async (credentials) => {
-  const userInfo = await axios.post(baseUrl, credentials);
+const login = async (credentials: { email: string; password: string }) => {
+  const userInfo = await axios.post(`${baseApiUrl}api/auth/login`, credentials);
   return userInfo.data;
 };
 
 const signup = async (credentials) => {
-  const userInfo = await axios.post(baseUrl, credentials);
+  const userInfo = await axios.post(
+    `${baseApiUrl}api/auth/signup`,
+    credentials,
+  );
   return userInfo.data;
 };
 

@@ -4,6 +4,8 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToMany,
+  JoinTable,
 } from "typeorm";
 
 @Entity({ name: "users" })
@@ -17,6 +19,15 @@ export class User {
   @Column()
   lastName: string;
 
+  @Column()
+  department: string;
+
+  @Column()
+  title: string;
+
+  @Column()
+  phoneNumber: string;
+
   @Column({ nullable: false })
   email: string;
 
@@ -28,4 +39,19 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  // Contacts: users this user has saved
+  @ManyToMany(() => User, (user) => user.contacts)
+  @JoinTable({
+    name: "user_contacts",
+    joinColumn: {
+      name: "userId",
+      referencedColumnName: "id",
+    },
+    inverseJoinColumn: {
+      name: "contactId",
+      referencedColumnName: "id",
+    },
+  })
+  contacts: User[];
 }

@@ -26,19 +26,66 @@ AppDataSource.initialize()
   .then(async () => {
     console.log("Database connection established successfully");
 
-    // These operations now run only if DB connection is successful
-    console.log("Inserting a new user into the database...");
-    const user = new User();
-    user.firstName = "Timber";
-    user.lastName = "Saw";
-    user.email = "timber@gmail.com";
-    user.password = await encrypt.encryptpass("password");
-    await AppDataSource.manager.save(user);
-    console.log("Saved a new user with id: " + user.id);
+    const userRepo = AppDataSource.getRepository(User);
 
-    console.log("Loading users from the database...");
-    const users = await AppDataSource.manager.find(User);
-    console.log("Loaded users: ", users);
+    // Create users
+    const timber = userRepo.create({
+      firstName: "Timber",
+      lastName: "Straw",
+      email: "timebr@gmail.com",
+      password: await encrypt.encryptpass("password"),
+      department: "Engineering",
+      title: "Data Scientist",
+      phoneNumber: "1234569890",
+    });
+
+    const alice = userRepo.create({
+      firstName: "Alice",
+      lastName: "Wonder",
+      email: "alice@example.com",
+      password: await encrypt.encryptpass("password"),
+      department: "Engineering",
+      title: "Developer",
+      phoneNumber: "1234567890",
+    });
+
+    const bob = userRepo.create({
+      firstName: "Bob",
+      lastName: "Builder",
+      email: "bob@example.com",
+      password: await encrypt.encryptpass("password"),
+      department: "Construction",
+      title: "Engineer",
+      phoneNumber: "2345678901",
+    });
+
+    const carol = userRepo.create({
+      firstName: "Carol",
+      lastName: "Singer",
+      email: "carol@example.com",
+      password: await encrypt.encryptpass("password"),
+      department: "Entertainment",
+      title: "Performer",
+      phoneNumber: "3456789012",
+    });
+
+    // Save them
+    await userRepo.save([timber, alice, bob, carol]);
+
+    // Assign contacts
+    timber.contacts = [alice, bob, carol];
+    alice.contacts = [bob, carol];
+    bob.contacts = [alice]; // optional
+    await userRepo.save([alice, bob]); // this updates the join table
+
+    console.log("Created users with contact relationships.");
+
+    // Load with contacts
+    const allUsers = await userRepo.find({
+      relations: ["contacts"],
+    });
+    console.log("Users with contacts:", allUsers);
+
     app.listen(PORT, () => {
       console.log("Server is running on http://localhost:" + PORT);
     });

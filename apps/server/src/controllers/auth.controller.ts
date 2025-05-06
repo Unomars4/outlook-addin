@@ -21,10 +21,12 @@ export async function login(req: Request, res: Response) {
     }
     const token = encrypt.generateToken(user);
 
+    delete user.password, user.createdAt, user.updatedAt;
+
     res.status(200).json({ message: "Login successful", user, token });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "Login unsucessful" });
   }
 }
 

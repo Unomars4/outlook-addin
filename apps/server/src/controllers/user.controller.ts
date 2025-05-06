@@ -18,13 +18,12 @@ export async function signup(req: Request, res: Response) {
   // userRepository.create({ Name, email, password });
   const token = encrypt.generateToken(user);
 
-  res
-    .status(200)
-    .json({ message: "User created successfully", token, user });
+  delete user.password, user.createdAt, user.updatedAt;
+
+  res.status(200).json({ message: "User created successfully", token, user });
 }
 
 export async function getUsers(req: Request, res: Response) {
-  console.log("serving from db");
   const userRepository = AppDataSource.getRepository(User);
   const users = await userRepository.find();
 

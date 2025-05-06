@@ -1,5 +1,5 @@
 export class ContactUser {
-  id: number;
+  id: string;
   firstName: string;
   lastName: string;
   title: string;
@@ -11,7 +11,7 @@ export class ContactUser {
 }
 
 export class UserResponse {
-  id: number;
+  id: string;
   firstName: string;
   lastName: string;
   title: string;

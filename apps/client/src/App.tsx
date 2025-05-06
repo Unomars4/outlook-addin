@@ -5,17 +5,7 @@ import { useState, useEffect } from "react";
 import { toast, Toaster } from "sonner";
 import contactService from "@/services/contacts";
 
-export type ContactUser = {
-  id: number;
-  firstName: string;
-  lastName: string;
-  title: string;
-  department: string;
-  phoneNumber: string;
-  email: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
+export type ContactUser = Omit<User, "contacts">;
 
 export type User = {
   id: string;

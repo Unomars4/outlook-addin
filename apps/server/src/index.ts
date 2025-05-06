@@ -7,6 +7,7 @@ import { Request, Response } from "express";
 import { userRouter } from "./routes/user.routes";
 import "reflect-metadata";
 import { encrypt } from "./helpers";
+import { contactsRouter } from "./routes/contacts.routes";
 dotenv.config();
 
 const app = express();
@@ -16,6 +17,7 @@ app.use(express.json());
 
 const { PORT = 3000 } = process.env;
 app.use("/api/auth", userRouter);
+app.use("/api/users", contactsRouter);
 
 app.get("*", (req: Request, res: Response) => {
   res.status(505).json({ message: "Bad Request" });

@@ -1,15 +1,15 @@
+import { baseApiUrl } from "@/lib/utils";
 import axios from "axios";
-const baseUrl = "/contacts";
 
-let token = null;
+let token: string | null = null;
 
-const setToken = (newToken) => {
+const setToken = (newToken: string) => {
   token = `Bearer ${newToken}`;
 };
 
-const getAllContacts = () => {
-  const req = axios.get(serverLocation);
+const getUserContacts = (userId: string) => {
+  const req = axios.get(`${baseApiUrl}/api/users/${userId}/contacts`);
   return req.then((res) => res.data);
 };
 
-export default { getAllContacts, setToken };
+export default { getUserContacts, setToken };

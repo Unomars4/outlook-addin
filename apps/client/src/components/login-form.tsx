@@ -10,6 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import loginService from "@/services/user";
+import contactService from "@/services/contacts";
 
 export function LoginForm({
   className,
@@ -24,7 +25,8 @@ export function LoginForm({
           email: email.toString(),
           password: password.toString(),
         });
-        console.log(user);
+        contactService.setToken(user.token);
+        window.localStorage.setItem("outlookAddIn", JSON.stringify(user));
       } catch (err) {
         console.error("Something went wrong:", err);
       }

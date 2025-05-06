@@ -229,13 +229,7 @@ export function AppSidebar({ userHandler, user, ...props }: AppSidebarProps) {
                       }}
                       onClick={() => {
                         setActiveItem(item);
-                        const mail = mails.sort(() => Math.random() - 0.5);
-                        setMails(
-                          mail.slice(
-                            0,
-                            Math.max(5, Math.floor(Math.random() * 10) + 1),
-                          ),
-                        );
+                        mails.sort(() => Math.random() - 0.5);
                         setOpen(true);
                       }}
                       isActive={activeItem?.title === item.title}

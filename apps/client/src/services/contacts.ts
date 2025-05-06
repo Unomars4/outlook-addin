@@ -8,7 +8,10 @@ const setToken = (newToken: string) => {
 };
 
 const getUserContacts = (userId: string) => {
-  const req = axios.get(`${baseApiUrl}api/users/${userId}/contacts`);
+  const config = {
+    headers: { Authorization: token },
+  };
+  const req = axios.get(`${baseApiUrl}api/users/${userId}/contacts`, config);
   return req.then((res) => res.data);
 };
 

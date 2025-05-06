@@ -17,7 +17,9 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Switch } from "@/components/ui/switch";
-import { User } from "@/App";
+import { ContactUser, User } from "@/App";
+import contactService from "@/services/contacts";
+import { toast } from "sonner";
 
 // This is sample data
 const data = {
@@ -134,10 +136,10 @@ const data = {
     {
       name: "Sophia White",
       email: "sophiawhite@example.com",
-      subject: "Team Dinner",
+      subject: "team dinner",
       date: "1 week ago",
       teaser:
-        "To celebrate our recent project success, I'd like to organize a team dinner.\nAre you available next Friday evening? Please let me know your preferences.",
+        "to celebrate our recent project success, i'd like to organize a team dinner.\nare you available next friday evening? please let me know your preferences.",
     },
   ],
 };
@@ -151,8 +153,40 @@ export function AppSidebar({ userHandler, user, ...props }: AppSidebarProps) {
   // Note: I'm using state to show active item.
   // IRL you should use the url/router.
   const [activeItem, setActiveItem] = React.useState(data.navMain[0]);
-  const [mails, setMails] = React.useState(data.mails);
+  const [mails, setMails] = React.useState([]);
+  const [userContacts, setUserContacts] = React.useState<ContactUser[] | []>(
+    [],
+  );
   const { setOpen } = useSidebar();
+
+  React.useEffect(() => {
+    const fetchUserContactList = async (user: User) => {
+      try {
+        const contacts = await contactService.getUserContacts(user.id);
+        if (contacts.data.length > 0) {
+          const additionalMail = contacts.data.map((c: ContactUser) => {
+            return {
+              name: `${c.firstName} ${c.lastName}`,
+              subject: "team dinner",
+              date: "1 week ago",
+              teaser:
+                "to celebrate our recent project success, i'd like to organize a team dinner.\nare you available next friday evening? please let me know your preferences.",
+              ...c,
+            };
+          });
+          setMails([...data.mails.concat(additionalMail)]);
+          setUserContacts(additionalMail);
+          console.log([...data.mails.concat(additionalMail)]);
+        }
+      } catch (err) {
+        toast(
+          `An error occurred retrieving your contact list: ${err.response.data.message}`,
+        );
+      }
+    };
+
+    fetchUserContactList(user);
+  }, []);
 
   return (
     <Sidebar
@@ -161,7 +195,6 @@ export function AppSidebar({ userHandler, user, ...props }: AppSidebarProps) {
       {...props}
     >
       {/* This is the first sidebar */}
-      {/* We disable collapsible and adjust width to icon. */}
       {/* This will make the sidebar appear as icons. */}
       <Sidebar
         collapsible="none"
@@ -197,7 +230,7 @@ export function AppSidebar({ userHandler, user, ...props }: AppSidebarProps) {
                       }}
                       onClick={() => {
                         setActiveItem(item);
-                        const mail = data.mails.sort(() => Math.random() - 0.5);
+                        const mail = mails.sort(() => Math.random() - 0.5);
                         setMails(
                           mail.slice(
                             0,
@@ -224,7 +257,6 @@ export function AppSidebar({ userHandler, user, ...props }: AppSidebarProps) {
       </Sidebar>
 
       {/* This is the second sidebar */}
-      {/* We disable collapsible and let it fill remaining space */}
       <Sidebar collapsible="none" className="hidden flex-1 md:flex">
         <SidebarHeader className="gap-3.5 border-b p-4">
           <div className="flex w-full items-center justify-between">
@@ -248,7 +280,7 @@ export function AppSidebar({ userHandler, user, ...props }: AppSidebarProps) {
                   className="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex flex-col items-start gap-2 border-b p-4 text-sm leading-tight whitespace-nowrap last:border-b-0"
                 >
                   <div className="flex w-full items-center gap-2">
-                    <span>{mail.name}</span>{" "}
+                    <span className="aft">{mail.name}</span>{" "}
                     <span className="ml-auto text-xs">{mail.date}</span>
                   </div>
                   <span className="font-medium">{mail.subject}</span>

@@ -1,4 +1,4 @@
-import { User } from "@/App";
+import { ContactUser, User } from "@/App";
 import { AppSidebar } from "@/components/app-sidebar";
 import {
   Breadcrumb,

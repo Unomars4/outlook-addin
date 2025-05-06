@@ -2,7 +2,7 @@ import "./App.css";
 import { LoginForm } from "@/components/login-form";
 import DashBoard from "./components/dashboard";
 import { useState, useEffect } from "react";
-import { toast, Toaster } from "sonner";
+import { Toaster } from "sonner";
 import contactService from "@/services/contacts";
 
 export type ContactUser = Omit<User, "contacts">;
@@ -22,26 +22,13 @@ export type User = {
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
-  const [userContacts, setUserContacts] = useState<ContactUser[] | []>([]);
 
   useEffect(() => {
-    const fetchUserContactList = async (user: User) => {
-      try {
-        const contacts = await contactService.getUserContacts(user.id);
-        setUserContacts(contacts);
-      } catch (err) {
-        toast(
-          `An error occurred retrieving your contact list: ${err.response.data.message}`,
-        );
-      }
-    };
-
     const loggedInUser = window.localStorage.getItem("outlookAddIn");
     if (loggedInUser) {
       const user = JSON.parse(loggedInUser);
       setUser(user.user);
       contactService.setToken(user.token);
-      fetchUserContactList(user.user);
     }
   }, []);
 

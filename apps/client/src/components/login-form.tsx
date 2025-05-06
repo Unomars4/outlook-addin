@@ -11,11 +11,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import loginService from "@/services/user";
 import contactService from "@/services/contacts";
+import { Dispatch, SetStateAction } from "react";
 
 export function LoginForm({
   className,
+  userHandler,
   ...props
-}: React.ComponentProps<"div">) {
+}: React.ComponentProps<"div"> & {
+  userHandler: Dispatch<SetStateAction<null>>;
+}) {
   const actionState = async (formData: FormData) => {
     const email = formData.get("email");
     const password = formData.get("password");
@@ -25,6 +29,7 @@ export function LoginForm({
           email: email.toString(),
           password: password.toString(),
         });
+        userHandler(user.user);
         contactService.setToken(user.token);
         window.localStorage.setItem("outlookAddIn", JSON.stringify(user));
       } catch (err) {

@@ -3,7 +3,7 @@ import { AppDataSource } from "../data-source";
 import { User } from "../entity/User";
 
 export async function getUsersContacts(req: Request, res: Response) {
-  const userId = req.params.id;
+  const userId = Number(req.params.id);
   const userRepo = AppDataSource.getRepository(User);
 
   try {

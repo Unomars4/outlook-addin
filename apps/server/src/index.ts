@@ -34,7 +34,7 @@ AppDataSource.initialize()
     const timber = userRepo.create({
       firstName: "Timber",
       lastName: "Straw",
-      email: "timebr@gmail.com",
+      email: "timber@gmail.com",
       password: await encrypt.encryptpass("password"),
       department: "Engineering",
       title: "Data Scientist",

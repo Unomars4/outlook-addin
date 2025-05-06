@@ -76,7 +76,7 @@ AppDataSource.initialize()
     timber.contacts = [alice, bob, carol];
     alice.contacts = [bob, carol];
     bob.contacts = [alice]; // optional
-    await userRepo.save([alice, bob]); // this updates the join table
+    await userRepo.save([alice, bob, timber]); // this updates the join table
 
     console.log("Created users with contact relationships.");
 

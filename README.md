@@ -59,5 +59,6 @@ If you prefer to run the add-in using Docker Compose for a more streamlined setu
   
 ## Notes
 
-I was unable to complete the assessment within the given timeframe.
+- Contact list users are indicated with a ☎️ emoji next to their name
+- Use these credentials to login in to dashboard. email: timber@gmail.com, pw: password
 

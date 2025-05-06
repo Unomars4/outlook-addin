@@ -51,6 +51,7 @@ function App() {
       const user = JSON.parse(loggedInUser);
       setUser(user.user);
       contactService.setToken(user.token);
+      fetchUserContactList(user.user);
     }
   }, []);
 

@@ -8,7 +8,7 @@ const setToken = (newToken: string) => {
 };
 
 const getUserContacts = (userId: string) => {
-  const req = axios.get(`${baseApiUrl}/api/users/${userId}/contacts`);
+  const req = axios.get(`${baseApiUrl}api/users/${userId}/contacts`);
   return req.then((res) => res.data);
 };
 

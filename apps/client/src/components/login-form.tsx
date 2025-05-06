@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import loginService from "@/services/user";
 import contactService from "@/services/contacts";
 import { Dispatch, SetStateAction } from "react";
+import { toast } from "sonner";
 
 export function LoginForm({
   className,
@@ -32,8 +33,10 @@ export function LoginForm({
         userHandler(user.user);
         contactService.setToken(user.token);
         window.localStorage.setItem("outlookAddIn", JSON.stringify(user));
+        toast("You have logged in successfully 🙂");
       } catch (err) {
         console.error("Something went wrong:", err);
+        toast("We were unable to log you in 😔");
       }
     }
   };

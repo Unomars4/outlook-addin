@@ -13,7 +13,7 @@ This is a secure, containerized Outlook add-in built using TypeScript and the Of
 
 ## Tech Choices
  - Client: Vite, React, Shadcn, Typescript, Tailwindcss, OfficeJS
-      - Before choosing the above client stack, I initially attempted to use the [npm yeoman-generator](https://learn.microsoft.com/en-us/office/dev/add-ins/quickstarts/fluent-react-quickstart) for Outlook add-ins. However, I couldn't get it running locally, so I pivoted to building a simulated add-in experience instead.
+      - Before choosing the above client stack, I initially attempted to use the npm yeoman-generator for Outlook add-ins. However, I couldn't get it running locally, so I pivoted to building a simulated add-in experience instead. I also explored a manual approach using office-init.ts, taskpane.html, and manifest.xml, but I wasn’t able to get a working solution quickly enough, which led me to focus on the simulation route to demonstrate the core functionality.
  - Server: Typescript, TypeOrm, NodeJS, Express, JWT, BcryptJS
       - The server stack was chosen for I'm familiar with it and it's simplicity.
  - DB: PostgresSQL

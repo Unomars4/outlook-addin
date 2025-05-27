@@ -4,16 +4,9 @@
 
 This is a secure, containerized Outlook add-in built using TypeScript and the Office-JS API.
 
-## Auth Flow
-1. User signs up or logs in via the client.
-2. Server returns a JWT.
-3. Client stores the token (in-memory or localStorage).
-4. All protected routes (like /contact-info) require the JWT in the Authorization header. 
-
 
 ## Tech Choices
  - Client: Vite, React, Shadcn, Typescript, Tailwindcss, OfficeJS
-      - Before choosing the above client stack, I initially attempted to use the npm yeoman-generator for Outlook add-ins. However, I couldn't get it running locally, so I pivoted to building a simulated add-in experience instead. I also explored a manual approach using office-init.ts, taskpane.html, and manifest.xml, but I wasn’t able to get a working solution quickly enough, which led me to focus on the simulation route to demonstrate the core functionality.
  - Server: Typescript, TypeOrm, NodeJS, Express, JWT, BcryptJS
       - The server stack was chosen for I'm familiar with it and it's simplicity.
  - DB: PostgresSQL
